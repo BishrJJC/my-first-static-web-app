@@ -36,10 +36,6 @@
   </style>
 </head>
 <body>
-  <script>
-    const SEARCH_KEY = "{{ SEARCH_KEY }}";
-  </script>
-  
   <div id="app">
     
       <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -109,8 +105,23 @@
   // For demonstration purposes only, do not use in a production environment. For simplicity, this is a single HTML page that has the query key to the search service.
   // CORS (*) must be enabled in the index before using the demo app. API key authentication must be enabled in the search service.
 
+  // Function to fetch the search key securely from your API endpoint
+  async function getSearchKey() {
+    const response = await fetch('/api/get-search-key');
+    const data = await response.json();
+    return data.searchKey;
+  }
+
   // Initialize and connect to your search service
-  var automagic = new AzSearch.Automagic({ index: "azureblob-index-json-suggester", queryKey: SEARCH_KEY, service: "policy-cognitive-search", dnsSuffix:"search.windows.net" });
+  getSearchKey().then(searchKey => {
+    var automagic = new AzSearch.Automagic({
+      index: "azureblob-index-json-suggester", 
+      queryKey: searchKey,  // Use the fetched search key here
+      service: "policy-cognitive-search", 
+      dnsSuffix: "search.windows.net"
+    });
+  // // Initialize and connect to your search service
+  // var automagic = new AzSearch.Automagic({ index: "azureblob-index-json-suggester", queryKey: SEARCH_KEY, service: "policy-cognitive-search", dnsSuffix:"search.windows.net" });
   
   const resultTemplate = `<div class="col-xs-12 col-sm-9 col-md-9"><h4>{{PolicyUID}}</h4><div class="resultDescription">{{{spantag}}}</div><button onclick="alertPolicy('{{PolicyUID}}', '{{dataPages}}')">Tag</button></div>`;
 
@@ -149,6 +160,7 @@
 
   // Adds a button to clear any applied filters
   automagic.addClearFiltersButton("clearFilters");
+    });
 
   // Define the function to alert PolicyUID and page
   function alertPolicy(policyUID, dataPages, searchText) {

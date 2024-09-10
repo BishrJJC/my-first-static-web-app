@@ -1,0 +1,9 @@
+{
+    "routes": [
+      {
+        "route": "/api/get-search-key",
+        "allowedRoles": ["anonymous"],
+        "methods": ["GET"]
+      }
+    ]
+  }
