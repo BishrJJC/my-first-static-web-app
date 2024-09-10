@@ -39,9 +39,6 @@
   <div id="app">
     
       <nav class="navbar navbar-inverse navbar-fixed-top">
-        <h1>Hello <script type="text/javascript">
-          document.write(SEARCH_KEY)
-        </script></h1>
           <div class="container-fluid">
               <div class="navbar-header">
                   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#facetPanel" aria-expanded="false"
@@ -107,15 +104,15 @@
 
   // Function to fetch the search key securely from your API endpoint
   async function getSearchKey() {
-    const response = await fetch('/api/get-search-key');
-    const data = await response.json();
-    return data.searchKey;
+    const response = await fetch('https://digitalpolicyindex-aisearch-python.azurewebsites.net/api/http_trigger_return_search_key?code=Z4yGQrlnwpVBtz9fKqC34mKx9qXQ7D1PP5MO73bNQohwAzFuVETTeg%3D%3D');
+    const searchKey = await response.text();
+    return searchKey;
   }
 
   // Initialize and connect to your search service
   getSearchKey().then(searchKey => {
     var automagic = new AzSearch.Automagic({
-      index: "azureblob-index-json-suggester", 
+      index: "policy-search-index", 
       queryKey: searchKey,  // Use the fetched search key here
       service: "policy-cognitive-search", 
       dnsSuffix: "search.windows.net"
@@ -123,7 +120,7 @@
   // // Initialize and connect to your search service
   // var automagic = new AzSearch.Automagic({ index: "azureblob-index-json-suggester", queryKey: SEARCH_KEY, service: "policy-cognitive-search", dnsSuffix:"search.windows.net" });
   
-  const resultTemplate = `<div class="col-xs-12 col-sm-9 col-md-9"><h4>{{PolicyUID}}</h4><div class="resultDescription">{{{spantag}}}</div><button onclick="alertPolicy('{{PolicyUID}}', '{{dataPages}}')">Tag</button></div>`;
+  const resultTemplate = `<div class="col-xs-12 col-sm-9 col-md-9"><h4>{{PolicyUID}}</h4><div class="resultDescription">{{{content}}}</div><button onclick="alertPolicy('{{PolicyUID}}', '{{dataPages}}')">Tag</button></div>`;
 
   // add a results view using the template defined above
   automagic.addResults("results", { count: true }, resultTemplate);
@@ -149,7 +146,7 @@
       {
           highlightPreTag: "<b>",
           highlightPostTag: "</b>",
-          suggesterName: "sg_json_new",
+          suggesterName: "policy-search-suggester",
           select: "PolicyUID,dataPages"
       },
       "",
