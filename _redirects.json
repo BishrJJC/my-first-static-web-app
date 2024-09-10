@@ -1,9 +1,18 @@
 {
     "routes": [
-      {
-        "route": "/api/get-search-key",
-        "allowedRoles": ["anonymous"],
-        "methods": ["GET"]
-      }
-    ]
-  }
+            {
+            "route": "/*",
+            "allowedRoles": ["authenticated"]
+            }
+        ],
+        "responseOverrides": {
+            "401": {
+            "statusCode": 302,
+            "redirect": "/.auth/login/aad"
+            }
+        },
+        
+    "navigationFallback": {
+            "rewrite": "/index.html"
+        }
+}

@@ -104,9 +104,16 @@
 
   // Function to fetch the search key securely from your API endpoint
   async function getSearchKey() {
-    const response = await fetch('https://digitalpolicyindex-aisearch-python.azurewebsites.net/api/http_trigger_return_search_key?code=Z4yGQrlnwpVBtz9fKqC34mKx9qXQ7D1PP5MO73bNQohwAzFuVETTeg%3D%3D');
-    const searchKey = await response.text();
-    return searchKey;
+    try{
+      const response = await fetch('https://digitalpolicyindex-aisearch-python.azurewebsites.net/api/http_trigger_return_search_key?code=Z4yGQrlnwpVBtz9fKqC34mKx9qXQ7D1PP5MO73bNQohwAzFuVETTeg%3D%3D');
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      const searchKey = await response.text();
+      return searchKey;
+    } catch (error) {
+      console.error('There has been a problem with your fetch operation:', error);
+    }
   }
 
   // Initialize and connect to your search service
