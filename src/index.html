@@ -127,7 +127,8 @@
   // // Initialize and connect to your search service
   // var automagic = new AzSearch.Automagic({ index: "azureblob-index-json-suggester", queryKey: SEARCH_KEY, service: "policy-cognitive-search", dnsSuffix:"search.windows.net" });
   
-  const resultTemplate = `<div class="col-xs-12 col-sm-9 col-md-9"><h4>{{PolicyUID}}</h4><div class="resultDescription">{{{content}}}</div><button onclick="alertPolicy('{{PolicyUID}}', '{{dataPages}}')">Tag</button></div>`;
+  const resultTemplate = '<div class="col-xs-12 col-sm-9 col-md-9"><h4>{{PolicyUID}}</h4><div class="resultDescription">{{{content}}}</div></div>';
+  // <button onclick="alertPolicy(\'{{PolicyUID}}\', \'{{dataPages}}\', {{content}})">Tag</button>
 
   // add a results view using the template defined above
   automagic.addResults("results", { count: true }, resultTemplate);
@@ -168,7 +169,7 @@
 
   // Define the function to alert PolicyUID and page
   function alertPolicy(policyUID, dataPages, searchText) {
-      alert('PolicyUID: ' + policyUID + '\nPages: ' + dataPages + '\nText:' + `${searchText}`);
+      alert('PolicyUID: ' + policyUID + '\nPages: ' + dataPages + '\nText:' + searchText);
   }
 
 
