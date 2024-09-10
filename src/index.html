@@ -36,8 +36,16 @@
   </style>
 </head>
 <body>
+  <script>
+    const SEARCH_KEY = "{{ SEARCH_KEY }}";
+  </script>
+  
   <div id="app">
+    
       <nav class="navbar navbar-inverse navbar-fixed-top">
+        <h1>Hello <script type="text/javascript">
+          document.write(SEARCH_KEY)
+        </script></h1>
           <div class="container-fluid">
               <div class="navbar-header">
                   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#facetPanel" aria-expanded="false"
@@ -80,6 +88,7 @@
               </div>
           </div>
       </div>
+      
       <!-- Bootstrap core JavaScript
           ================================================== -->
       <!-- Placed at the end of the document so the pages load faster -->
@@ -93,9 +102,8 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/redux/3.6.0/redux.min.js"></script>
 <!-- Main -->
 <script src="https://cdn.jsdelivr.net/npm/@microsoft/azsearch.js@0.0.21/dist/AzSearch.bundle.js"></script>
-<script>
-  const SEARCH_KEY = "{{ SEARCH_KEY }}";
-</script>
+
+
 <script>
   // WARNING
   // For demonstration purposes only, do not use in a production environment. For simplicity, this is a single HTML page that has the query key to the search service.
