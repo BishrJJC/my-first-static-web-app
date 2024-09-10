@@ -6,6 +6,11 @@
       {
         "route": "/*",
         "allowedRoles": [ "authenticated" ]
+      },
+      {
+        "route": "/api/get-search-key",
+        "allowedRoles": ["authenticated"],
+        "methods": ["GET"]
       }
     ],
     "responseOverrides": {
